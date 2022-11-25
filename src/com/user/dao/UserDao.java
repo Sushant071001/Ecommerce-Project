@@ -6,9 +6,12 @@ import com.user.model.User;
 public interface UserDao 
 {
 
-	void insertUser(User user);
+	void insertUser();
 	
     List<User> getAllUsers();
-    void userLogin(String username,String password);
+    
+    boolean userLogin(String username,String password);
 	
+    void addToCart(int pro_id);
+    
 }
