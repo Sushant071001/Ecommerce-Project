@@ -1,4 +1,4 @@
-package com.user.model;
+package com.models;
 
 public class User 
 {
@@ -8,7 +8,14 @@ public class User
 	private String email;
 	private String password;
 	private String userName;
+	private String orderHistory;
 	
+	public String getOrderHistory() {
+		return orderHistory;
+	}
+	public void setOrderHistory(String orderHistory) {
+		this.orderHistory = orderHistory;
+	}
 	public int getUserId() {
 		return userId;
 	}

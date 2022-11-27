@@ -6,28 +6,24 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.products.model.Product;
+import com.models.Product;
+import com.models.User;
 import com.service.db.connection.DBConnection;
-import com.user.model.User;
 
-public class Products 
-{
-	
+public class Products {
+
 	DBConnection db = new DBConnection();
 
-	public List<Product> displayAllProducts()
-	{
+	public List<Product> listOfProduct() {
 		Product product = null;
 		List<Product> productList = new ArrayList<Product>();
 		String query = "select * from products ORDER BY product_name";
-		try 
-		{
+		try {
 			Connection con = db.getConnection();
-	
+
 			PreparedStatement ps = con.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
-			while(rs.next()) 
-			{
+			while (rs.next()) {
 				int id = rs.getInt("product_id");
 				String desc = rs.getString("description");
 				int price = rs.getInt("price");
@@ -41,24 +37,26 @@ public class Products
 				product.setQuantity(quantity);
 				productList.add(product);
 			}
-		} 
-		catch (Exception e) 
-		{
+		} catch (Exception e) {
 			System.out.println(e);
 		}
 		return productList;
 	}
-	
-	public void showProducts()
-	{
-		List<Product> list = displayAllProducts();
-		System.out.println("----------------------------------------------------------------------------------------------------------------");
+
+	public void showProducts(List<Product> productList) {
+		System.out.println("LIST OF AVAILABLE PRODUCTS");
+		System.out.println(
+				"----------------------------------------------------------------------------------------------------------------");
 		System.out.println("PRODUCT ID\t\tNAME\t\t\tDESCRIPTION\t\t\tPRICE");
-		System.out.println("----------------------------------------------------------------------------------------------------------------");
-		for (Product product : list) {
-			System.out.println(product.getProductId()+"\t\t\t"+product.getName()+"\t\t\t"+product.getProductDesc()+"\t\t\t"+product.getPrice()+"\t\t\t");
+		System.out.println(
+				"----------------------------------------------------------------------------------------------------------------");
+		for (Product product : productList) {
+			System.out.println(product.getProductId() + "\t\t\t" + product.getName() + "\t\t\t"
+					+ product.getProductDesc() + "\t\t\t" + product.getPrice() + "\t\t\t");
 		}
+
+		System.out.println(
+				"----------------------------------------------------------------------------------------------------------------");
 	}
-	
-	
+
 }

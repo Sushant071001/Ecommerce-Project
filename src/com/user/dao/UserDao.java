@@ -1,7 +1,9 @@
 package com.user.dao;
 
 import java.util.List;
-import com.user.model.User;
+
+import com.models.Product;
+import com.models.User;
 
 public interface UserDao 
 {
@@ -10,8 +12,10 @@ public interface UserDao
 	
     List<User> getAllUsers();
     
-    boolean userLogin(String username,String password);
+    int userLogin(String username,String password);
 	
-    void addToCart(int pro_id);
+    List<Product> addToCart(Product product);
+    
+    void getPayment();
     
 }

@@ -6,80 +6,71 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
-import com.products.model.Product;
+import com.models.Product;
+import com.models.User;
 import com.service.db.connection.DBConnection;
+import com.service.products.list.Products;
 import com.user.dao.UserDao;
-import com.user.model.User;
 
-public class UserImpl implements UserDao 
-{
-	
+public class UserImpl implements UserDao {
+
 	Scanner sc = new Scanner(System.in);
-	DBConnection db = new DBConnection();	
+	DBConnection db = new DBConnection();
+	User user = new User();
 
 	@Override
-	public void insertUser() 
-	{
+	public void insertUser() {
 		User user = new User();
 		System.out.print("Enter Your Name : ");
-		String uname= sc.next();
+		String uname = sc.next();
 		user.setuName(uname);
-		
+
 		System.out.print("Enter your Email : ");
-		String email= sc.next();
+		String email = sc.next();
 		user.setEmail(email);
-		
+
 		System.out.print("Enter your Username : ");
-		String username= sc.next();
+		String username = sc.next();
 		user.setUserName(username);
-		
+
 		System.out.print("Enter your Password : ");
-		String password=sc.next();
+		String password = sc.next();
 		user.setPassword(password);
 		String query = "insert into user(uname,email,password,username) values(?,?,?,?)";
-		try 
-		{
+		try {
 			Connection con = db.getConnection();
-	
+
 			PreparedStatement ps = con.prepareStatement(query);
-			
-//			ps.setInt(1,user.getUserId());
-			ps.setString(1,user.getuName());
-			ps.setString(2,user.getEmail());
-			ps.setString(3,user.getPassword());
-			ps.setString(4,user.getUserName());
-			int i=ps.executeUpdate();
-			if(i==1) 
-			{
+
+			ps.setString(1, user.getuName());
+			ps.setString(2, user.getEmail());
+			ps.setString(3, user.getPassword());
+			ps.setString(4, user.getUserName());
+			int i = ps.executeUpdate();
+			if (i == 1) {
 				System.out.println("You have successfully registered");
-			}
-			else 
-			{
+			} else {
 				System.err.println("Something went wrong");
 			}
-
-		}
-		catch(Exception e) 
-		{
+		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
-	
+
 	@Override
-	public List<User> getAllUsers() 
-	{
+	public List<User> getAllUsers() {
 		User user = null;
 		List<User> userList = new ArrayList<User>();
 		String query = "select * from user";
-		try 
-		{
+		try {
 			Connection con = db.getConnection();
-	
+
 			PreparedStatement ps = con.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
-			while(rs.next()) 
-			{
+			while (rs.next()) {
 				int id = rs.getInt("user_id");
 				String name = rs.getString("uname");
 				String email = rs.getString("email");
@@ -93,76 +84,54 @@ public class UserImpl implements UserDao
 				user.setUserName(username);
 				userList.add(user);
 			}
-		} 
-		catch (Exception e) 
-		{
+		} catch (Exception e) {
 			System.out.println(e);
 		}
 		return userList;
 	}
 
 	@Override
-	public boolean userLogin(String username, String password) 
-	{
+	public int userLogin(String username, String password) {
 		UserImpl userImpl = new UserImpl();
-		List<User>list = userImpl.getAllUsers();
-		
-        for(User user:list) 
-        {
-        	if(username.equals(user.getUserName())&&password.equals(user.getPassword())) 
-        	{
-        		return true;
-        	}
-        }
-        return false;
+		List<User> list = userImpl.getAllUsers();
+
+		for (User user : list) {
+			if (username.equals(user.getUserName()) && password.equals(user.getPassword())) {
+				return user.getUserId();
+			}
+		}
+		return -1;
+	}
+
+	Product product = new Product();
+	List<Product> addedInCart = new ArrayList<Product>();
+
+	@Override
+	public List<Product> addToCart(Product product) {
+		Products prd = new Products();
+		List<Product> productList = prd.listOfProduct();
+		addedInCart.add(product);
+		System.out.println("\n              ITEMS IN YOUR CART");
+		System.out.println("--------------------------------------------------------");
+		System.out.println("PRODUCT NAME\tPRICE\t\tQUANTITY\tTOTAL");
+		System.out.println("--------------------------------------------------------");
+		for (Product p : addedInCart) {
+			int productTotalPrice =p.getPrice()*p.getQuantity();
+			System.out.println(p.getName()+"\t\t"+p.getPrice()+"\t\t"+p.getQuantity()+"\t\t"+productTotalPrice);			
+		}
+		System.out.println("--------------------------------------------------------");
+		return addedInCart;
+	}
+
+
+	private void reduceProductQuantity(List<Product> addedInCart) {
+	
 	}
 
 	@Override
-	public void addToCart(int pro_id) 
-	{
-		Product product = null;
-		List<Product> addedInCart = new ArrayList<Product>();
-		String query = "select * from products where product_id = ?";
-		try 
-		{
-			Connection con = db.getConnection();
-	
-			PreparedStatement ps = con.prepareStatement(query);
-			
-			ps.setInt(1, pro_id);
-			
-			ResultSet rs = ps.executeQuery();
-			
-			while(rs.next()) 
-			{
-				int id = rs.getInt("product_id");
-				String desc = rs.getString("description");
-				int price = rs.getInt("price");
-				String name = rs.getString("product_name");
-				int quantity = rs.getInt("quantity");
-				product = new Product();
-				product.setProductId(id);
-				product.setProductDesc(desc);
-				product.setPrice(price);
-				product.setName(name);
-				product.setQuantity(quantity);
-				addedInCart.add(product);
-			}
-			System.out.println("ITEMS IN YOUR CART");
-			for(Product p:addedInCart)
-			{
-				System.out.println("Product Name : "+p.getName()+" Price : "+p.getPrice());
-			}
-			System.out.println(addedInCart);
-			
-		} 
-		catch (Exception e) 
-		{
-			System.out.println(e);
-		}
-//		return proList;
-		
+	public void getPayment() {
+		// TODO Auto-generated method stub
 		
 	}
-	
+
 }
