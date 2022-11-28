@@ -6,13 +6,10 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import com.models.Product;
 import com.models.User;
 import com.service.db.connection.DBConnection;
-import com.service.products.list.Products;
 import com.user.dao.UserDao;
 
 public class UserImpl implements UserDao {
@@ -22,8 +19,8 @@ public class UserImpl implements UserDao {
 	User user = new User();
 
 	@Override
-	public void insertUser() {
-		User user = new User();
+	public void insertUser() 
+	{
 		System.out.print("Enter Your Name : ");
 		String uname = sc.next();
 		user.setuName(uname);
@@ -39,6 +36,7 @@ public class UserImpl implements UserDao {
 		System.out.print("Enter your Password : ");
 		String password = sc.next();
 		user.setPassword(password);
+		System.out.println("-----------------------------");
 		String query = "insert into user(uname,email,password,username) values(?,?,?,?)";
 		try {
 			Connection con = db.getConnection();
@@ -51,7 +49,7 @@ public class UserImpl implements UserDao {
 			ps.setString(4, user.getUserName());
 			int i = ps.executeUpdate();
 			if (i == 1) {
-				System.out.println("You have successfully registered");
+				System.out.println("YOU HAVE SUCCESSFULLY REGISTERED");
 			} else {
 				System.err.println("Something went wrong");
 			}
@@ -61,7 +59,8 @@ public class UserImpl implements UserDao {
 	}
 
 	@Override
-	public List<User> getAllUsers() {
+	public List<User> getAllUsers() 
+	{
 		User user = null;
 		List<User> userList = new ArrayList<User>();
 		String query = "select * from user";
@@ -91,7 +90,8 @@ public class UserImpl implements UserDao {
 	}
 
 	@Override
-	public int userLogin(String username, String password) {
+	public int userLogin(String username, String password) 
+	{
 		UserImpl userImpl = new UserImpl();
 		List<User> list = userImpl.getAllUsers();
 
@@ -107,9 +107,8 @@ public class UserImpl implements UserDao {
 	List<Product> addedInCart = new ArrayList<Product>();
 
 	@Override
-	public List<Product> addToCart(Product product) {
-		Products prd = new Products();
-		List<Product> productList = prd.listOfProduct();
+	public List<Product> addToCart(Product product) 
+	{
 		addedInCart.add(product);
 		System.out.println("\n              ITEMS IN YOUR CART");
 		System.out.println("--------------------------------------------------------");
@@ -121,17 +120,6 @@ public class UserImpl implements UserDao {
 		}
 		System.out.println("--------------------------------------------------------");
 		return addedInCart;
-	}
-
-
-	private void reduceProductQuantity(List<Product> addedInCart) {
-	
-	}
-
-	@Override
-	public void getPayment() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

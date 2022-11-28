@@ -1,13 +1,8 @@
 package com.services;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.Scanner;
 
-import com.models.Product;
 import com.service.db.connection.DBConnection;
-import com.service.products.list.Products;
 import com.user.dao.impl.UserImpl;
 
 public class UserService

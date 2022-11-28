@@ -16,6 +16,5 @@ public interface UserDao
 	
     List<Product> addToCart(Product product);
     
-    void getPayment();
     
 }

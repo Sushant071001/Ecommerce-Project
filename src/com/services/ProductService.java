@@ -8,30 +8,33 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.models.Product;
-import com.models.User;
 import com.service.db.connection.DBConnection;
 import com.service.products.list.Products;
 import com.user.dao.impl.UserImpl;
 
-public class ProductService {
+public class ProductService 
+{
 
 	static UserImpl userImpl = new UserImpl();
 	static Scanner sc = new Scanner(System.in);
 	DBConnection db = new DBConnection();
 	static int totalPrice=0;
 	
-	public static void productService(int userId) {
+	public static void productService(int userId) 
+	{
 		Products products = new Products();
 		List<Product> productList = products.listOfProduct();
 		products.showProducts(productList);
 		String isTrue = "n";
 		List<Product> cart = new ArrayList<>();
-		while (isTrue.equalsIgnoreCase("N")) {
+		while (isTrue.equalsIgnoreCase("N")) 
+		{
 			System.out.print("\nPlease select PRODUCT_ID : ");
 			int pro_id = sc.nextInt();
 			List<Integer> productIds = new ArrayList<Integer>();
 			productList.stream().forEach(product -> productIds.add(product.getProductId()));
-			if (!productIds.contains(pro_id)) {
+			if (!productIds.contains(pro_id)) 
+			{
 				System.out.println("no product avaible " + pro_id);
 				System.err.println("\nProduct id is invalid");
 				productService(userId);
@@ -56,14 +59,13 @@ public class ProductService {
 			totalPrice = totalPrice + product.getPrice()*product.getQuantity();
 		}
 		payment();
-		
 		OrderService orderService = new OrderService();
 		orderService.addOrders(cart, userId);
 		
 	}
 
-	private static void payment() {
-		// TODO Auto-generated method stub
+	private static void payment() 
+	{
 		System.out.println("--------------------------------------");
 		System.out.println("      Total Amount:" + totalPrice);
 		System.out.println("--------------------------------------");
@@ -79,8 +81,6 @@ public class ProductService {
 		}
 		
 	}
-
-
 
 	public Product getProductById(int productId) {
 
@@ -110,8 +110,6 @@ public class ProductService {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		
 		return product;
-
 	}
 }

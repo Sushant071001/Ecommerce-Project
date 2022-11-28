@@ -31,7 +31,6 @@ public class AdminService
 		if (adminimpl.adminLogin(adminUsername, adminPass)) 
 		{
 			System.out.println("Admin Logged in Successfully");
-			boolean isCheck = true;
 			while (true) 
 			{
 				System.out.println("\n1. ALL USER DATA");
@@ -46,29 +45,30 @@ public class AdminService
 				{
 					case 1:
 					{		
-						System.out.println("\n-----------------------------------------------------------------");
-						System.out.println("                      All user data ");
-						System.out.println("-----------------------------------------------------------------");
+						System.out.println("                         ALL USER DATA ");
+						System.out.println("-------------------------------------------------------------------------------------");
 						List<User> list = userImpl.getAllUsers();
-						System.out.println("USER ID\t\tNAME\t\tEMAIL\t\tPASSWORD\t\tUSERNAME");
+						System.out.println("USER ID\tNAME\t\tEMAIL\t\t\tPASSWORD\tUSERNAME");
+						System.out.println("-------------------------------------------------------------------------------------");
 						for (User user : list) {
-							System.out.println(user.getUserId()+"\t\t"+user.getuName()+"\t\t"+user.getEmail()+"\t\t"+user.getPassword()+"\t\t\t"+user.getUserName());
+							System.out.println(user.getUserId()+"\t"+user.getuName()+"\t\t"+user.getEmail()+"\t"+user.getPassword()+"\t"+user.getUserName());
 						}
+						System.out.println("-------------------------------------------------------------------------------------");
 						break;
 					}						
 					case 2:
 					{
-						System.out.println("All product data :");
+						System.out.println("                            ALL PRODUCT DATA :");
 						Products products = new Products();
 						List<Product> list = products.listOfProduct();
-						System.out.println("\n---------------------------------------------------------------------------------------------------------------------");
-						System.out.println("PRODUCT ID\t\tNAME\t\t\tDESCRIPTION\t\t\tPRICE\t\t\tQUANTITY");
-						System.out.println("---------------------------------------------------------------------------------------------------------------------");
+						System.out.println("-------------------------------------------------------------------------------------------------------------");
+						System.out.println("PRODUCT ID\t\tNAME\t\tDESCRIPTION\t\tPRICE\t\tQUANTITY");
+						System.out.println("-------------------------------------------------------------------------------------------------------------");
 						for (Product product : list)
 						{
-							System.out.println(product.getProductId()+"\t\t\t"+product.getName()+"\t\t"+product.getProductDesc()+"\t\t\t"+product.getPrice()+"\t\t\t"+product.getQuantity());
+							System.out.println(product.getProductId()+"\t\t\t"+product.getName()+"\t\t"+product.getProductDesc()+"\t\t"+product.getPrice()+"\t\t"+product.getQuantity());
 						}
-						System.out.println("---------------------------------------------------------------------------------------------------------------------");
+						System.out.println("-------------------------------------------------------------------------------------------------------------");
 						break;
 					}
 					case 3:

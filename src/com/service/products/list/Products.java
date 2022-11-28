@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.models.Product;
-import com.models.User;
 import com.service.db.connection.DBConnection;
 
 public class Products {
@@ -47,12 +46,12 @@ public class Products {
 		System.out.println("LIST OF AVAILABLE PRODUCTS");
 		System.out.println(
 				"----------------------------------------------------------------------------------------------------------------");
-		System.out.println("PRODUCT ID\t\tNAME\t\t\tDESCRIPTION\t\t\tPRICE");
+		System.out.println("PRODUCT ID\tNAME\t\tDESCRIPTION\t\t\t\tPRICE");
 		System.out.println(
 				"----------------------------------------------------------------------------------------------------------------");
 		for (Product product : productList) {
-			System.out.println(product.getProductId() + "\t\t\t" + product.getName() + "\t\t\t"
-					+ product.getProductDesc() + "\t\t\t" + product.getPrice() + "\t\t\t");
+			System.out.println(product.getProductId() + "\t\t" + product.getName() + "\t\t"
+					+ product.getProductDesc() + "\t\t\t\t" + product.getPrice());
 		}
 
 		System.out.println(

@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.models.Orders;
 import com.models.Product;
-import com.models.User;
 import com.models.UserOrders;
 import com.service.db.connection.DBConnection;
 
@@ -16,7 +15,8 @@ public class OrderService {
 
 	DBConnection db = new DBConnection();
 
-	public void addOrders(List<Product> addedCartList, int userId) {
+	public void addOrders(List<Product> addedCartList, int userId) 
+	{
 		String query = "insert into orders(user_id,product_id,quantity) values(?,?,?)";
 		try {
 			Connection con = db.getConnection();
@@ -34,7 +34,8 @@ public class OrderService {
 		}
 	}
 
-	public List<UserOrders> fetchOrders() {
+	public List<UserOrders> fetchOrders() 
+	{
 		List<Orders> orders = new ArrayList<Orders>();
 		String query = "select * from orders";
 		try {
